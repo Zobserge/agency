@@ -11,39 +11,38 @@ document.addEventListener('DOMContentLoaded', function () {
   // На viewport больше 1320 добавляет
   // На viewport меньше 992 убирает
 
-  var popupBodys = Array.prototype.slice.call(document.querySelectorAll('.popup__body'));
-  var btnUp = document.querySelector('.btnUp-container');
-  var mainHeader = document.querySelector('.header');
+  var popupBodys = Array.prototype.slice.call(document.querySelectorAll(".popup__body"));
+  var btnUp = document.querySelector(".btnUp-container");
+  var mainHeader = document.querySelector(".header");
   function paddingRight() {
     var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     if (viewportWidth >= 1400) {
-      document.body.classList.add('pad-r');
-      if (mainHeader.classList.contains('header--fixed')) {
-        mainHeader.classList.add('pad-r');
+      document.body.classList.add("pad-r");
+      if (mainHeader.classList.contains("header--fixed")) {
+        mainHeader.classList.add("pad-r");
       } else {
-        mainHeader.classList.remove('pad-r');
+        mainHeader.classList.remove("pad-r");
       }
-      ;
-      btnUp.classList.add('pad-r');
+      btnUp.classList.add("pad-r");
       popupBodys.forEach(function (item) {
-        item.classList.add('mar-l');
+        item.classList.add("mar-l");
       });
     }
     if (viewportWidth <= 992) {
-      document.body.classList.remove('pad-r');
-      mainHeader.classList.remove('pad-r');
-      btnUp.classList.remove('pad-r');
+      document.body.classList.remove("pad-r");
+      mainHeader.classList.remove("pad-r");
+      btnUp.classList.remove("pad-r");
       popupBodys.forEach(function (item) {
-        item.classList.remove('mar-l');
+        item.classList.remove("mar-l");
       });
     }
   }
   function removePaddingRight() {
-    document.body.classList.remove('pad-r');
-    mainHeader.classList.remove('pad-r');
-    btnUp.classList.remove('pad-r');
+    document.body.classList.remove("pad-r");
+    mainHeader.classList.remove("pad-r");
+    btnUp.classList.remove("pad-r");
     popupBodys.forEach(function (item) {
-      item.classList.remove('mar-l');
+      item.classList.remove("mar-l");
     });
   }
 
@@ -55,21 +54,21 @@ document.addEventListener('DOMContentLoaded', function () {
     var triggers = Array.prototype.slice.call(document.querySelectorAll(triggerSelector));
     var modal = document.querySelector(modalSelector);
     var btnsClose = Array.prototype.slice.call(document.querySelectorAll(closeSelector));
-    var popBodys = document.querySelectorAll('.popup__body');
+    var popBodys = document.querySelectorAll(".popup__body");
 
     // Кнопки закрытия модалок
     btnsClose.forEach(function (item) {
-      item.addEventListener('click', closeModal);
+      item.addEventListener("click", closeModal);
     });
 
     // Кнопки открывающие модалки
     triggers.forEach(function (item) {
-      item.addEventListener('click', openModal);
+      item.addEventListener("click", openModal);
     });
 
     // Закрытие формы при нажатии на фон вокруг формы
     popupBodys.forEach(function (item) {
-      item.addEventListener('click', function (e) {
+      item.addEventListener("click", function (e) {
         if (e.target === item) {
           closeModal();
         }
@@ -77,43 +76,41 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Закрытие формы при нажатии ESC
-    document.body.addEventListener('keyup', function (e) {
+    document.body.addEventListener("keyup", function (e) {
       var key = e.keyCode;
       if (key == 27) {
         closeModal();
       }
-      ;
     }, false);
 
     // Основная функция открывашка
     function openModal() {
-      // «visible and opacity 1» — лежит в popupsAndForms.css 
-      modal.classList.add('cond-vis');
-      modal.classList.add('cond-opa');
+      // «visible and opacity 1» — лежит в popupsAndForms.css
+      modal.classList.add("cond-vis");
+      modal.classList.add("cond-opa");
       popBodys.forEach(function (popBody) {
         // «анимация сдвиг сверху на форму при октрытии» — лежит в popupsAndForms.css
-        popBody.classList.add('anim-OpenPopup');
+        popBody.classList.add("anim-OpenPopup");
       });
       // «overflow-hidden» — лежит в structure.scss
-      document.body.classList.add('ov-h');
+      document.body.classList.add("ov-h");
       paddingRight();
     }
 
     // Основная функция закрывашка
     function closeModal() {
       popBodys.forEach(function (popBody) {
-        popBody.classList.remove('anim-OpenPopup');
+        popBody.classList.remove("anim-OpenPopup");
       });
       setTimeout(function () {
-        modal.classList.remove('cond-vis');
+        modal.classList.remove("cond-vis");
       }, 440);
-      modal.classList.remove('cond-opa');
+      modal.classList.remove("cond-opa");
       setTimeout(function () {
-        document.body.classList.remove('ov-h');
+        document.body.classList.remove("ov-h");
         removePaddingRight();
       }, 300);
     }
-    ;
   }
 
   /* ---------- */
@@ -121,107 +118,92 @@ document.addEventListener('DOMContentLoaded', function () {
   /* Создаем модальные окна */
 
   // Кнопка в шапке
-  bindModal('.header__call-btn', '.popup-callback', '.popup-close');
+  bindModal(".header__call-btn", ".popup-callback", ".popup-close");
 
-  // Кнопка в меню справа
-  bindModal('.nav-offcanvas__call-btn', '.popup-callback', '.popup-close');
-
-  // Кнопка вызывающая попап с текстовым контентом
-  bindModal('.pop-info-btn', '.popup-info', '.popup-close');
+  // Кнопка на первом экране
+  bindModal(".bnr-btn", ".popup-callback", ".popup-close");
 
   /* ---------- */
 
   // ПОПАПЫ И ФОРМЫ ==========
+
   // МЕНЮ С ПРАВОЙ СТОРОНЫ ЭКРАНА
 
   /* Меню, которое появляется справа */
 
-  var navIcon = document.querySelector('.navbar-toggle');
-  var navOffcanvasCloseBtn = document.querySelector('.nav-close-btn');
-  var navOffcanvas = document.querySelector('.nav-offcanvas');
-  var navOffcanvasContainer = document.querySelector('.nav-offcanvas__container');
-  var navOffcanvasItems = Array.prototype.slice.call(document.querySelectorAll('.nav-offcanvas span'));
+  var navIcon = document.querySelector(".navbar-toggle");
+  var navModalCloseBtn = document.querySelector(".nav-close-btn");
+  var navModal = document.querySelector(".nav-modal");
+  var navModalContainer = document.querySelector(".nav-modal__container");
+  var navModalItems = Array.prototype.slice.call(document.querySelectorAll(".nav-modal span"));
 
   // Кнопка в шапке, которая открывает меню справа
-  navIcon.addEventListener('click', function () {
-    navOffcanvas.classList.add('cond-vis');
-    navOffcanvas.classList.add('cond-opa');
+  navIcon.addEventListener("click", function () {
+    navModal.classList.add("cond-vis");
+    navModal.classList.add("cond-opa");
 
-    // navOffcanvasContainer.classList.add('cond-opa');
+    // navModalContainer.classList.add('cond-opa');
 
-    navOffcanvasContainer.classList.add('anim-RightShiftNav');
-    document.body.classList.add('ov-h');
+    navModalContainer.classList.add("anim-RightShiftNav");
+    document.body.classList.add("ov-h");
     addPaddingRightNav(); // В файле popups.js
   });
 
   function addPaddingRightNav() {
     var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     if (viewportWidth >= 1400) {
-      document.body.classList.add('pad-r');
-      if (mainHeader.classList.contains('header--fixed')) {
-        mainHeader.classList.add('pad-r');
+      document.body.classList.add("pad-r");
+      if (mainHeader.classList.contains("header--fixed")) {
+        mainHeader.classList.add("pad-r");
       } else {
-        mainHeader.classList.remove('pad-r');
+        mainHeader.classList.remove("pad-r");
       }
-      ;
-      btnUp.classList.add('pad-r');
+      btnUp.classList.add("pad-r");
     }
     if (viewportWidth <= 992) {
-      document.body.classList.remove('pad-r');
-      mainHeader.classList.remove('pad-r');
-      btnUp.classList.remove('pad-r');
+      document.body.classList.remove("pad-r");
+      mainHeader.classList.remove("pad-r");
+      btnUp.classList.remove("pad-r");
     }
   }
   function removePaddingRightNav() {
-    document.body.classList.remove('pad-r');
-    mainHeader.classList.remove('pad-r');
-    btnUp.classList.remove('pad-r');
+    document.body.classList.remove("pad-r");
+    mainHeader.classList.remove("pad-r");
+    btnUp.classList.remove("pad-r");
   }
 
   // Основная функция закрытия блока
   function closeNav() {
-    navOffcanvasContainer.classList.remove('anim-RightShiftNav');
+    navModalContainer.classList.remove("anim-RightShiftNav");
     setTimeout(function () {
-      navOffcanvas.classList.remove('cond-vis');
+      navModal.classList.remove("cond-vis");
     }, 300);
-    navOffcanvas.classList.remove('cond-opa');
+    navModal.classList.remove("cond-opa");
     removePaddingRightNav();
-    document.body.classList.remove('ov-h');
+    document.body.classList.remove("ov-h");
   }
 
   // Кнопка закрытия в меню справа
-  navOffcanvasCloseBtn.addEventListener('click', function () {
+  navModalCloseBtn.addEventListener("click", function () {
     closeNav();
   });
 
   // Закрытие меню при нажатии на фон
-  navOffcanvas.addEventListener('click', function (e) {
-    if (e.target === navOffcanvas) {
+  navModal.addEventListener("click", function (e) {
+    if (e.target === navModal) {
       closeNav();
     }
   });
 
   // При нажатии на пункт меню, оно закрывается
-  navOffcanvasItems.forEach(function (item) {
-    item.addEventListener('click', closeNav);
-  });
-
-  /* ---------- */
-
-  /* Кнопка заявки в меню справа */
-
-  var navOffcanvasCallBtn = document.querySelector('.nav-offcanvas__call-btn');
-  navOffcanvasCallBtn.addEventListener('click', function () {
-    navOffcanvasContainer.classList.remove('anim-RightShiftNav');
-    setTimeout(function () {
-      navOffcanvas.classList.remove('cond-vis');
-    }, 300);
-    navOffcanvas.classList.remove('cond-opa');
+  navModalItems.forEach(function (item) {
+    item.addEventListener("click", closeNav);
   });
 
   /* ---------- */
 
   // МЕНЮ С ПРАВОЙ СТОРОНЫ ЭКРАНА ==========
+
   // ШАПКА ПРИ СКРОЛЕ
 
   /* Появляется при скроле вниз */
@@ -230,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
     myFunction();
   };
   var header = document.querySelector(".header");
-  var headerWrap = document.querySelector('.first-screen');
+  var headerWrap = document.querySelector('.f-sc');
   var sticky = header.offsetTop;
   function myFunction() {
     if (window.pageYOffset > sticky) {
@@ -3525,7 +3507,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* InputMask */
 
-  var inputMask = new Inputmask('+7(999)999-99-99');
+  var inputMask = new Inputmask("+7(999)999-99-99");
   var inpPhones = document.querySelectorAll('input[type="tel"]');
   inpPhones.forEach(function (phone) {
     inputMask.mask(phone);
@@ -3548,36 +3530,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ФОРМА В ПОПАПЕ «ЗАКАЗАТЬ ЗВОНОК»
 
-  var formPopupOrderCall = new JustValidate('#form-popup');
-  var orderCallPhoneInput = document.querySelector('.in-ph-popup');
-  formPopupOrderCall.addField('.input-name', [{
-    rule: 'required',
+  var formPopupOrderCall = new JustValidate("#form-popup");
+  var orderCallPhoneInput = document.querySelector(".in-ph-popup");
+  formPopupOrderCall.addField(".input-name", [{
+    rule: "required",
     value: true,
-    errorMessage: 'Введите имя'
+    errorMessage: "Need Name"
   }, {
-    rule: 'minLength',
+    rule: "minLength",
     value: 2,
-    errorMessage: 'Короткое имя'
+    errorMessage: "Too short"
   }, {
-    rule: 'maxLength',
+    rule: "maxLength",
     value: 15,
-    errorMessage: 'Максимум 15'
-  }]).addField('.input-phone', [{
-    rule: 'required',
-    value: true,
-    errorMessage: 'Введите телефон'
+    errorMessage: "Max 15"
+  }]).addField(".input-email", [{
+    rule: "required",
+    errorMessage: "Need Email"
   }, {
-    validator: function validator() {
-      var phone = orderCallPhoneInput.inputmask.unmaskedvalue();
-      return phone.length === 10;
-    },
-    errorMessage: 'Короткий номер'
-  }]).addField('.input-email', [{
-    rule: 'required',
-    errorMessage: 'Введите email'
-  }, {
-    rule: 'email',
-    errorMessage: 'Неправильно введен email'
+    rule: "email",
+    errorMessage: "Wrong Email"
   }]).onSuccess(function (event) {
     // console.log('Validation passes and form submitted', event);
 
@@ -3590,24 +3562,24 @@ document.addEventListener('DOMContentLoaded', function () {
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          var modal = document.querySelector('.popup-callback');
-          var modalSuccess = document.querySelector('.success-notif');
+          var modal = document.querySelector(".popup-callback");
+          var modalSuccess = document.querySelector(".success-notif");
           setTimeout(function () {
-            modal.classList.remove('cond-vis');
+            modal.classList.remove("cond-vis");
           }, 440);
-          modal.classList.remove('cond-opa');
-          document.body.classList.remove('ov-h');
+          modal.classList.remove("cond-opa");
+          document.body.classList.remove("ov-h");
           removePaddingRight();
-          modalSuccess.classList.add('cond-vis');
-          modalSuccess.classList.add('cond-opa');
+          modalSuccess.classList.add("cond-vis");
+          modalSuccess.classList.add("cond-opa");
           setTimeout(function () {
-            modalSuccess.classList.remove('cond-vis');
-            modalSuccess.classList.remove('cond-opa');
+            modalSuccess.classList.remove("cond-vis");
+            modalSuccess.classList.remove("cond-opa");
           }, 3000);
         }
       }
     };
-    xhr.open('POST', 'mail.php', true);
+    xhr.open("POST", "mail.php", true);
     xhr.send(formData);
     event.target.reset();
   });
@@ -3615,6 +3587,7 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ---------- */
 
   // КОНЕЦ ВАЛИДАЦИИ ФОРМ ==========
+
   // КНОПКА ВВЕРХ
 
   /* Переменная btnUp создана в popups.js */
@@ -3670,37 +3643,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* Это кнопки меню, которые скролят до нужного блока */
 
-  var mainAnchor = document.querySelector('.mn-ancr');
-  var block2Anchor = Array.prototype.slice.call(document.querySelectorAll('.b2-ancr'));
-  var block3Anchor = Array.prototype.slice.call(document.querySelectorAll('.b3-ancr'));
-  var block4Anchor = Array.prototype.slice.call(document.querySelectorAll('.b4-ancr'));
-  var block5Anchor = Array.prototype.slice.call(document.querySelectorAll('.b5-ancr'));
+  var mainAnchor = document.querySelector(".mn-ancr");
+  var block2Anchor = Array.prototype.slice.call(document.querySelectorAll(".b2-ancr"));
+  var block3Anchor = Array.prototype.slice.call(document.querySelectorAll(".b3-ancr"));
+  var block4Anchor = Array.prototype.slice.call(document.querySelectorAll(".b4-ancr"));
+  var block5Anchor = Array.prototype.slice.call(document.querySelectorAll(".b5-ancr"));
+  var block6Anchor = Array.prototype.slice.call(document.querySelectorAll(".b6-ancr"));
+  var block7Anchor = Array.prototype.slice.call(document.querySelectorAll(".b7-ancr"));
 
   /* ---------- */
 
   /* Кнопок может быть много, поэтому перебераем через «forEach» */
 
-  mainAnchor.addEventListener('click', function () {
-    smoothScroll('.f-sc', 1000);
+  mainAnchor.addEventListener("click", function () {
+    smoothScroll(".f-sc", 1000);
   });
   block2Anchor.forEach(function (el) {
-    el.addEventListener('click', function () {
-      smoothScroll('.b2-tr', 1000);
+    el.addEventListener("click", function () {
+      smoothScroll(".b2-sct", 1000);
     });
   });
   block3Anchor.forEach(function (el) {
-    el.addEventListener('click', function () {
-      smoothScroll('.b3-tr', 1000);
+    el.addEventListener("click", function () {
+      smoothScroll(".b3-sct", 1000);
     });
   });
   block4Anchor.forEach(function (el) {
-    el.addEventListener('click', function () {
-      smoothScroll('.b4-tr', 1000);
+    el.addEventListener("click", function () {
+      smoothScroll(".b4-sct", 1000);
     });
   });
   block5Anchor.forEach(function (el) {
-    el.addEventListener('click', function () {
-      smoothScroll('.b5-tr', 1000);
+    el.addEventListener("click", function () {
+      smoothScroll(".b5-sct", 1000);
+    });
+  });
+  block6Anchor.forEach(function (el) {
+    el.addEventListener("click", function () {
+      smoothScroll(".b6-sct", 1000);
+    });
+  });
+  block7Anchor.forEach(function (el) {
+    el.addEventListener("click", function () {
+      smoothScroll(".b7-sct", 1000);
     });
   });
 
@@ -3708,34 +3693,43 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // КОНЕЦ ЯКОРЕЙ ==========
 
-  // БЛОК «СЛАЙДЕРЫ»
+  // БЛОК «sliders»
 
-  /* Первый экран */
+  /* news */
 
-  var sliderBanner = tns({
-    container: '.bn-slider',
+  var newsSlider = tns({
+    container: ".news-slider",
     items: 1,
     slideBy: 1,
-    controls: 1,
-    nav: false,
-    gutter: 10,
-    preventScrollOnTouch: 'auto',
-    prevButton: '.bn--prev',
-    nextButton: '.bn--next'
+    controls: 0,
+    navPosition: "bottom",
+    preventScrollOnTouch: "auto",
+    gutter: 8,
+    responsive: {
+      576: {
+        items: 2
+      },
+      992: {
+        gutter: 32
+      }
+    }
   });
 
   /* ---------- */
 
-  /* Отзывы */
-  var reviewBanner = tns({
-    container: '.reviews-slider',
+  /* reviews */
+
+  var reviewsSlider = tns({
+    container: ".reviews-slider",
     items: 1,
     slideBy: 1,
     controls: 1,
-    preventScrollOnTouch: 'auto',
     nav: false,
-    prevButton: '.rw--prev',
-    nextButton: '.rw--next'
+    navPosition: "bottom",
+    prevButton: ".n--prev",
+    nextButton: ".n--next",
+    preventScrollOnTouch: "auto",
+    gutter: 8
   });
 
   /* ---------- */
@@ -3744,5 +3738,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* ---------- */
 
-  // КОНЕЦ БЛОКА «СЛАЙДЕРЫ» ==========
+  // КОНЕЦ БЛОКА «sliders» ==========
 });
