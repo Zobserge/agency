@@ -2522,6 +2522,8 @@ input[type=password]:focus {
 }
 
 .reviews-btns .ic svg {
+  width: 0.875rem;
+  height: 0.875rem;
   fill: #c4c5c7;
 }
 
