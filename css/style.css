@@ -1824,6 +1824,10 @@ input[type=password]:focus {
   margin-bottom: 1.5rem;
 }
 
+.banner__left > *:last-child {
+  margin-bottom: 0;
+}
+
 .banner__left::after {
   position: absolute;
   z-index: -1;
@@ -1865,7 +1869,6 @@ input[type=password]:focus {
 }
 
 .bnr-btn {
-  margin-top: 1rem;
   width: auto !important;
 }
 
@@ -1928,13 +1931,8 @@ input[type=password]:focus {
 }
 
 .advantages__items {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
 }
 
@@ -2474,8 +2472,15 @@ input[type=password]:focus {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  gap: 0.5rem;
   margin-top: 1.5rem;
+}
+
+.reviews-btns > * {
+  margin-right: 0.625rem;
+}
+
+.reviews-btns > *:last-child {
+  margin-right: 0;
 }
 
 .reviews-btns .arr-btn {
@@ -3035,7 +3040,6 @@ input[type=password]:focus {
   }
 
   .advantages__items {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2.5rem;
   }
