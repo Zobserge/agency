@@ -468,6 +468,7 @@ body {
 }
 
 .ov-h {
+  position: relative;
   overflow: hidden !important;
 }
 
