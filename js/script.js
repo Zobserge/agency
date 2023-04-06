@@ -41,19 +41,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // все браузеры кроме safari и ie
     var isFirefox = /firefox/i.test(getUAString());
-    if (isLayoutViewport() && isFirefox || isLayoutViewport()) {
-      if (viewportWidth >= 1200) {
-        document.body.classList.add("pad-r");
-        if (mainHeader.classList.contains("header--fixed")) {
-          mainHeader.classList.add("pad-r");
-        } else {
-          mainHeader.classList.remove("pad-r");
-        }
-      }
-      if (viewportWidth < 1200) {
-        document.body.classList.remove("pad-r");
+
+    // if ((isLayoutViewport() && isFirefox) || isLayoutViewport()) {
+    if (viewportWidth >= 1200) {
+      document.body.classList.add("pad-r");
+      if (mainHeader.classList.contains("header--fixed")) {
+        mainHeader.classList.add("pad-r");
+      } else {
         mainHeader.classList.remove("pad-r");
       }
+    }
+    if (viewportWidth < 1200) {
+      document.body.classList.remove("pad-r");
+      mainHeader.classList.remove("pad-r");
     }
   }
   function removePaddingRight() {
