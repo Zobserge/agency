@@ -14,36 +14,51 @@ document.addEventListener('DOMContentLoaded', function () {
   var popupBodys = Array.prototype.slice.call(document.querySelectorAll(".popup__body"));
   var btnUp = document.querySelector(".btnUp-container");
   var mainHeader = document.querySelector(".header");
-  function paddingRight() {
+
+  // // получаем ширину экрана без скролбара
+  // const documentWidth = document.documentElement.clientWidth;
+  // // получаем ширину скролбара
+  // const scrollBarWidth = Math.abs(window.innerWidth - documentWidth);
+  // document.body.style.setProperty("padding-right", `${scrollBarWidth}px`);
+
+  function addPaddingRight() {
     var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    if (viewportWidth >= 1400) {
-      document.body.classList.add("pad-r");
-      if (mainHeader.classList.contains("header--fixed")) {
-        mainHeader.classList.add("pad-r");
-      } else {
+
+    // тут я мудрю чтобы выбрать все браузеры кроме safairi т.к. paddingRight задаю всем, кроме него
+
+    function getUAString() {
+      var uaData = navigator.userAgentData;
+      if (uaData != null && uaData.brands && Array.isArray(uaData.brands)) {
+        return uaData.brands.map(function (item) {
+          return item.brand + "/" + item.version;
+        }).join(" ");
+      }
+      return navigator.userAgent;
+    }
+    function isLayoutViewport() {
+      return !/^((?!chrome|android).)*safari/i.test(getUAString());
+    }
+
+    // все браузеры кроме safari и ie
+    var isFirefox = /firefox/i.test(getUAString());
+    if (isLayoutViewport() && isFirefox || isLayoutViewport()) {
+      if (viewportWidth >= 1200) {
+        document.body.classList.add("pad-r");
+        if (mainHeader.classList.contains("header--fixed")) {
+          mainHeader.classList.add("pad-r");
+        } else {
+          mainHeader.classList.remove("pad-r");
+        }
+      }
+      if (viewportWidth < 1200) {
+        document.body.classList.remove("pad-r");
         mainHeader.classList.remove("pad-r");
       }
-      btnUp.classList.add("pad-r");
-      popupBodys.forEach(function (item) {
-        item.classList.add("mar-l");
-      });
-    }
-    if (viewportWidth <= 992) {
-      document.body.classList.remove("pad-r");
-      mainHeader.classList.remove("pad-r");
-      btnUp.classList.remove("pad-r");
-      popupBodys.forEach(function (item) {
-        item.classList.remove("mar-l");
-      });
     }
   }
   function removePaddingRight() {
     document.body.classList.remove("pad-r");
     mainHeader.classList.remove("pad-r");
-    btnUp.classList.remove("pad-r");
-    popupBodys.forEach(function (item) {
-      item.classList.remove("mar-l");
-    });
   }
 
   /* ---------- */
@@ -94,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       // «overflow-hidden» — лежит в structure.scss
       document.body.classList.add("ov-h");
-      paddingRight();
+      addPaddingRight();
     }
 
     // Основная функция закрывашка
@@ -120,10 +135,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // Кнопка в шапке
   bindModal(".header__call-btn", ".popup-callback", ".popup-close");
 
-  // Кнопка на первом экране
+  // Кнопка в баннере
   bindModal(".bnr-btn", ".popup-callback", ".popup-close");
-
-  /* ---------- */
 
   // ПОПАПЫ И ФОРМЫ ==========
 
@@ -132,71 +145,48 @@ document.addEventListener('DOMContentLoaded', function () {
   /* Меню, которое появляется справа */
 
   var navIcon = document.querySelector(".navbar-toggle");
-  var navModalCloseBtn = document.querySelector(".nav-close-btn");
-  var navModal = document.querySelector(".nav-modal");
-  var navModalContainer = document.querySelector(".nav-modal__container");
-  var navModalItems = Array.prototype.slice.call(document.querySelectorAll(".nav-modal span"));
+  var navOffcanvasCloseBtn = document.querySelector(".ofcnvs-close-btn");
+  var navOffcanvas = document.querySelector(".offcanvas");
+  var navOffcanvasContainer = document.querySelector(".offcanvas__container");
+  var navOffcanvasItems = Array.prototype.slice.call(document.querySelectorAll(".offcanvas__elements span"));
 
   // Кнопка в шапке, которая открывает меню справа
   navIcon.addEventListener("click", function () {
-    navModal.classList.add("cond-vis");
-    navModal.classList.add("cond-opa");
+    navOffcanvas.classList.add("cond-vis");
+    navOffcanvas.classList.add("cond-opa");
 
-    // navModalContainer.classList.add('cond-opa');
+    // navOffcanvasContainer.classList.add('cond-opa');
 
-    navModalContainer.classList.add("anim-RightShiftNav");
+    navOffcanvasContainer.classList.add("anim-RightShiftNav");
     document.body.classList.add("ov-h");
-    addPaddingRightNav(); // В файле popups.js
+    addPaddingRight(); // В файле popupsAndForms.js
   });
-
-  function addPaddingRightNav() {
-    var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    if (viewportWidth >= 1400) {
-      document.body.classList.add("pad-r");
-      if (mainHeader.classList.contains("header--fixed")) {
-        mainHeader.classList.add("pad-r");
-      } else {
-        mainHeader.classList.remove("pad-r");
-      }
-      btnUp.classList.add("pad-r");
-    }
-    if (viewportWidth <= 992) {
-      document.body.classList.remove("pad-r");
-      mainHeader.classList.remove("pad-r");
-      btnUp.classList.remove("pad-r");
-    }
-  }
-  function removePaddingRightNav() {
-    document.body.classList.remove("pad-r");
-    mainHeader.classList.remove("pad-r");
-    btnUp.classList.remove("pad-r");
-  }
 
   // Основная функция закрытия блока
   function closeNav() {
-    navModalContainer.classList.remove("anim-RightShiftNav");
+    navOffcanvasContainer.classList.remove("anim-RightShiftNav");
     setTimeout(function () {
-      navModal.classList.remove("cond-vis");
+      navOffcanvas.classList.remove("cond-vis");
     }, 300);
-    navModal.classList.remove("cond-opa");
-    removePaddingRightNav();
+    navOffcanvas.classList.remove("cond-opa");
+    removePaddingRight();
     document.body.classList.remove("ov-h");
   }
 
   // Кнопка закрытия в меню справа
-  navModalCloseBtn.addEventListener("click", function () {
+  navOffcanvasCloseBtn.addEventListener("click", function () {
     closeNav();
   });
 
   // Закрытие меню при нажатии на фон
-  navModal.addEventListener("click", function (e) {
-    if (e.target === navModal) {
+  navOffcanvas.addEventListener("click", function (e) {
+    if (e.target === navOffcanvas) {
       closeNav();
     }
   });
 
   // При нажатии на пункт меню, оно закрывается
-  navModalItems.forEach(function (item) {
+  navOffcanvasItems.forEach(function (item) {
     item.addEventListener("click", closeNav);
   });
 
